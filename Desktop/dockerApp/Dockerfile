@@ -4,6 +4,7 @@ WORKDIR /dockerApp
 COPY package*.json package-lock.json ./
 RUN npm ci
 COPY . .
-EXPOSE 3000
+ENV PORT 3000
+EXPOSE $PORT
 
-CMD [ "node" , "index.js" ]
+CMD [ "npm", "run", "dev" ]
