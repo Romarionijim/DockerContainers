@@ -2,9 +2,16 @@ FROM node:18
 
 WORKDIR /dockerApp
 COPY package*.json package-lock.json ./
-RUN npm ci --only=production
+RUN npm install
+
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "development" ]; \
+    then npm install; \
+    else npm install --only=production; \
+    fi
+
 COPY . .
 ENV PORT 3000
 EXPOSE $PORT
 
-CMD [ "node", "index.js"]
+CMD [ "node", "index.js" ]
