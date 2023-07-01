@@ -2,3 +2,4 @@ node_modules
 Dockefile
 .git
 .gitignore
+docker-compose*
