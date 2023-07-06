@@ -5,7 +5,14 @@ const app = express();
 
 const mongoUrl = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`
 
-mongoose.connect(mongoUrl).then(() => console.log('successfully conencted to DB')).catch((e) => console.log(`error => ${e}`));
+const connectWithRetry = () => {
+    mongoose.connect(mongoUrl).then(() => console.log('successfully conencted to DB'))
+        .catch((e) => {
+            console.log(`error => ${e}`)
+            setTimeout(connectWithRetry, 5000);
+        });
+}
+
 
 
 app.get('/', (req, res) => {
